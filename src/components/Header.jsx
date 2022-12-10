@@ -119,7 +119,7 @@ const Header = () => {
                 >
                   {user && user.email === "abhipsha.patro63@gmail.com" && (
                     <Link to="/createItem">
-                      <p className="px-4 py-2 flex items-center justify-between cursor-pointer text-base hover:bg-slate-200 rounded-t-xl transition-all duration-100 ease-in-out text-textColor">
+                      <p onClick={() => setIsMenu(false)} className="px-4 py-2 flex items-center justify-between cursor-pointer text-base hover:bg-slate-200 rounded-t-xl transition-all duration-100 ease-in-out text-textColor">
                         New Item <MdAdd />
                       </p>
                     </Link>
@@ -182,16 +182,16 @@ const Header = () => {
 
                 {/* menu items */}
                 <ul className="flex flex-col">
-                  <li className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
                     Home <AiOutlineHome />
                   </li>
-                  <li className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
                     Menu <MdOutlineRestaurantMenu />
                   </li>
-                  <li className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
                     About Us <HiOutlineUserGroup />
                   </li>
-                  <li className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
                     Service <MdOutlineRoomService />
                   </li>
                 </ul>
