@@ -23,7 +23,7 @@ const Header = () => {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
-  const [{ user, cartShow }, dispatch] = useStateValue();
+  const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
 
   const [isMenu, setIsMenu] = useState(false);
 
@@ -59,9 +59,9 @@ const Header = () => {
   const showCart = () => {
     dispatch({
       type: actionType.SET_CART_SHOW,
-      cartShow: !cartShow
-  })
-  }
+      cartShow: !cartShow,
+    });
+  };
 
   return (
     <div>
@@ -97,11 +97,16 @@ const Header = () => {
             </motion.ul>
 
             {/* cart */}
-            <div onClick={showCart} className="relative flex items-center justify-center ">
+            <div
+              onClick={showCart}
+              className="relative flex items-center justify-center "
+            >
               <MdShoppingCart className="text-textColor text-2xl cursor-pointer" />
-              <div className="absolute -top-2 -right-2 flex items-center justify-center rounded-full bg-cartNumBg w-4 h-4">
-                <p className="text-xs text-white font-semibold">2</p>
-              </div>
+              {cartItems && cartItems.length > 0 && (
+                <div className="absolute -top-2 -right-2 flex items-center justify-center rounded-full bg-cartNumBg w-4 h-4">
+                  <p className="text-xs text-white font-semibold">2</p>
+                </div>
+              )}
             </div>
 
             {/* avatar */}
@@ -126,7 +131,10 @@ const Header = () => {
                 >
                   {user && user.email === "abhipsha.patro63@gmail.com" && (
                     <Link to="/createItem">
-                      <p onClick={() => setIsMenu(false)} className="px-4 py-2 flex items-center justify-between cursor-pointer text-base hover:bg-slate-200 rounded-t-xl transition-all duration-100 ease-in-out text-textColor">
+                      <p
+                        onClick={() => setIsMenu(false)}
+                        className="px-4 py-2 flex items-center justify-between cursor-pointer text-base hover:bg-slate-200 rounded-t-xl transition-all duration-100 ease-in-out text-textColor"
+                      >
                         New Item <MdAdd />
                       </p>
                     </Link>
@@ -155,11 +163,16 @@ const Header = () => {
           {/* avatar */}
           <div className="relative flex gap-8 items-center">
             {/* cart */}
-            <div onClick={showCart} className="relative flex items-center justify-center ">
+            <div
+              onClick={showCart}
+              className="relative flex items-center justify-center "
+            >
               <MdShoppingCart className="text-textColor text-xl cursor-pointer" />
-              <div className="absolute -top-2 -right-2 flex items-center justify-center rounded-full bg-cartNumBg w-3 h-3">
-                <p className="text-[10px] text-white font-medium">2</p>
-              </div>
+              {cartItems && cartItems.length > 0 && (
+                <div className="absolute -top-2 -right-2 flex items-center justify-center rounded-full bg-cartNumBg w-3 h-3">
+                  <p className="text-[10px] text-white font-medium">2</p>
+                </div>
+              )}
             </div>
             {/* profile pic */}
             <motion.img
@@ -189,16 +202,28 @@ const Header = () => {
 
                 {/* menu items */}
                 <ul className="flex flex-col">
-                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li
+                    onClick={() => setIsMenu(false)}
+                    className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2"
+                  >
                     Home <AiOutlineHome />
                   </li>
-                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li
+                    onClick={() => setIsMenu(false)}
+                    className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2"
+                  >
                     Menu <MdOutlineRestaurantMenu />
                   </li>
-                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li
+                    onClick={() => setIsMenu(false)}
+                    className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2"
+                  >
                     About Us <HiOutlineUserGroup />
                   </li>
-                  <li onClick={() => setIsMenu(false)} className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2">
+                  <li
+                    onClick={() => setIsMenu(false)}
+                    className="flex items-center justify-between text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-4 py-2"
+                  >
                     Service <MdOutlineRoomService />
                   </li>
                 </ul>
