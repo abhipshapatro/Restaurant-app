@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { RiRefreshFill } from "react-icons/ri";
-import { BiMinus, BiPlus } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import EmptyCart from "../img/emptyCart.svg";
+import CartItem from "./CartItem";
 
 const CartContainer = () => {
   const [{ cartShow, cartItems, user }, dispatch] = useStateValue();
+
+    const [total, setTotal] = useState(0);
+    const [flag, setFlag] = useState(1);
+
+// toggle the cart    
   const showCart = () => {
     dispatch({
       type: actionType.SET_CART_SHOW,
       cartShow: !cartShow,
     });
   };
+
+
+// calculating total value
+  useEffect(() => {
+    // inital value of accumulator = 0
+    let totalPrice = cartItems.reduce( function (accumulator, item){
+        return accumulator + item.qty * item.price; //gets added to accumulator 
+    }, 0);
+
+    setTotal(totalPrice);
+    console.log(total)
+  }, [total, flag])
+
+
+
+// clear the cart 
+  const clearCart = () => {
+    dispatch({
+        type : actionType.SET_CART_ITEM,
+        cartItems: [],
+    });
+
+    localStorage.setItem("cartItems", JSON.stringify([]));
+  }
 
   return (
     <motion.div
@@ -39,6 +68,7 @@ const CartContainer = () => {
         <motion.p
           whileTap={{ scale: 0.75 }}
           className="flex items-center gap-2 p-1 px-2 my-2   rounded-md bg-gray-100 hover:shadow-md cursor-pointer text-base text-textColor"
+          onClick={clearCart}
         >
           Clear <RiRefreshFill />{" "}
         </motion.p>
@@ -52,42 +82,7 @@ const CartContainer = () => {
             {/* cart item */}
             {cartItems &&
               cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="w-full p-1 px-2 rounded-lg bg-cartItem flex items-center gap-2"
-                >
-                  <img
-                    src={item.imageURL}
-                    alt=""
-                    className="w-20 h-20 max-w-[60px] object-contain rounded-full"
-                  />
-
-                  {/* cart item name */}
-                  <div className="flex flex-col gap-2">
-                    <p className="text-base text-gray-50">{item?.title}</p>
-                    <p className="text-sm block text-gray-50 font-semibold">
-                      ${item?.price}
-                    </p>
-                  </div>
-
-                  {/* button section */}
-                  <div className="group flex items-center gap-2 ml-auto cursor-pointer">
-                    {/* minus icon */}
-                    <motion.div whileTap={{ scale: 0.75 }}>
-                      <BiMinus className="text-gray-50" />
-                    </motion.div>
-
-                    {/* quantity */}
-                    <p className="w-5 h5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center">
-                      {item?.qty}
-                    </p>
-
-                    {/* plus icon */}
-                    <motion.div whileTap={{ scale: 0.75 }}>
-                      <BiPlus className="text-gray-50" />
-                    </motion.div>
-                  </div>
-                </div>
+                <CartItem key={item.id} item={item} flag={flag} setFlag={setFlag} />
               ))}
           </div>
 
@@ -96,7 +91,7 @@ const CartContainer = () => {
             {/* sub total amount section */}
             <div className="w-full flex items-center justify-between">
               <p className="text-gray-400 text-lg">Sub Total</p>
-              <p className="text-gray-400 text-lg">$ 4.5</p>
+              <p className="text-gray-400 text-lg">$ {total}</p>
             </div>
             {/* delivery amount section */}
             <div className="w-full flex items-center justify-between">
@@ -110,7 +105,7 @@ const CartContainer = () => {
             {/* total amount */}
             <div className="w-full flex items-center justify-between">
               <p className="text-xl text-gray-200 font-semibold">Total</p>
-              <p className="text-xl text-gray-200 font-semibold">$11.5</p>
+              <p className="text-xl text-gray-200 font-semibold">${total + 2.5}</p>
             </div>
 
             {/* button */}
