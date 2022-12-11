@@ -104,7 +104,9 @@ const Header = () => {
               <MdShoppingCart className="text-textColor text-2xl cursor-pointer" />
               {cartItems && cartItems.length > 0 && (
                 <div className="absolute -top-2 -right-2 flex items-center justify-center rounded-full bg-cartNumBg w-4 h-4">
-                  <p className="text-xs text-white font-semibold">{cartItems.length}</p>
+                  <p className="text-xs text-white font-semibold">
+                    {cartItems.length}
+                  </p>
                 </div>
               )}
             </div>

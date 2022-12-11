@@ -6,31 +6,31 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 
 const RowContainer = ({ flag, data, scrollValue }) => {
-    // console.log(data);
+  // console.log(data);
   const rowContainer = useRef();
 
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState([]);
 
-  const [{cartItems} , dispatch] =useStateValue();
+  const [{ cartItems }, dispatch] = useStateValue();
 
   const addToCart = () => {
     // console.log(item);
-    
+
     dispatch({
       type: actionType.SET_CART_ITEM,
-      cartItems: items
+      cartItems: items,
     });
 
-    localStorage.setItem("cartItems", JSON.stringify(cartItems))
-  }
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  };
 
   useEffect(() => {
     rowContainer.current.scrollLeft += scrollValue;
   }, [scrollValue]);
 
   useEffect(() => {
-    addToCart()
-  }, [items])
+    addToCart();
+  }, [items]);
 
   return (
     <div
@@ -89,7 +89,9 @@ const RowContainer = ({ flag, data, scrollValue }) => {
       ) : (
         <div className="w-full flex items-center justify-center">
           <img src={NotFound} alt="not found svg" className="h-340" />
-          <p className=" text-xl text-headingColor font-semibold my-2 ">Items Not Available</p>
+          <p className=" text-xl text-headingColor font-semibold my-2 ">
+            Items Not Available
+          </p>
         </div>
       )}
     </div>

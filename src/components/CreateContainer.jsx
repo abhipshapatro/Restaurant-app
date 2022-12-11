@@ -10,7 +10,12 @@ import {
 import { categories } from "../utils/data";
 import Loader from "./Loader";
 import { storage } from "../firebase.config";
-import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { getAllFoodItems, saveItem } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
@@ -25,9 +30,7 @@ const CreateContainer = () => {
   const [imageAsset, setImageAsset] = useState(null);
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [{foodItem}, dispatch] = useStateValue();
-
-
+  const [{ foodItem }, dispatch] = useStateValue();
 
   // upload the image
   const uploadImage = (e) => {
@@ -70,7 +73,6 @@ const CreateContainer = () => {
     );
   };
 
-
   // delete image
   const deleteImage = () => {
     setIsLoading(true);
@@ -79,30 +81,27 @@ const CreateContainer = () => {
       setImageAsset(null);
       setIsLoading(false);
       setFields(true);
-      setMsg('Image deleted successfully!');
-      setAlertStatus('success');
+      setMsg("Image deleted successfully!");
+      setAlertStatus("success");
       setTimeout(() => {
         setFields(false);
       }, 4000);
-    })
-
+    });
   };
-
 
   // save the details of the image
   const saveDetails = () => {
     setIsLoading(true);
     try {
-      if( !title || !category || !imageAsset || !calories || !price){
+      if (!title || !category || !imageAsset || !calories || !price) {
         setFields(true);
         setMsg("Required fields can't be empty!");
-        setAlertStatus('danger');
+        setAlertStatus("danger");
         setTimeout(() => {
           setFields(false);
           setIsLoading(false);
         }, 4000);
-      }
-      else{
+      } else {
         // save this data of the image
         const data = {
           id: `${Date.now()}`,
@@ -111,46 +110,42 @@ const CreateContainer = () => {
           category: category,
           calories: calories,
           price: price,
-          qty: 1
-        }
+          qty: 1,
+        };
         // then go to firebaseFunctions.js to save the data
         saveItem(data);
         // then change the states
         setIsLoading(false);
         setFields(true);
-        setMsg('Data uploaded successfully!');
-        setAlertStatus('success');
+        setMsg("Data uploaded successfully!");
+        setAlertStatus("success");
         setTimeout(() => {
           setFields(false);
           clearData();
         }, 4000);
-
       }
     } catch (error) {
-        console.log(error);
-        setFields(true);
-        setMsg("Error while uploading : Try Again ");
-        setAlertStatus("danger");
-        setTimeout(() => {
-          setFields(false);
-          setIsLoading(false);
-        }, 4000);
+      console.log(error);
+      setFields(true);
+      setMsg("Error while uploading : Try Again ");
+      setAlertStatus("danger");
+      setTimeout(() => {
+        setFields(false);
+        setIsLoading(false);
+      }, 4000);
 
-        fetchData()
+      fetchData();
     }
-    
   };
-
 
   // clear data
   const clearData = () => {
-     setImageAsset(null);
-     setTitle("");
-     setCalories("");
-     setPrice("");
-     setCategory("Select Category");
-  }
-
+    setImageAsset(null);
+    setTitle("");
+    setCalories("");
+    setPrice("");
+    setCategory("Select Category");
+  };
 
   // fetch data
   const fetchData = async () => {
@@ -158,8 +153,8 @@ const CreateContainer = () => {
       // console.log(data)
       dispatch({
         type: actionType.SET_FOOD_ITEM,
-        foodItem : data
-      })
+        foodItem: data,
+      });
     });
   };
 
@@ -267,7 +262,7 @@ const CreateContainer = () => {
           )}
         </div>
 
-        {/*  */}
+        {/* lower div */}
         <div className="w-full flex flex-col md:flex-row items-center gap-3">
           {/* calories */}
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">

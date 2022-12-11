@@ -10,7 +10,7 @@ import { getAllFoodItems } from "./utils/firebaseFunctions";
 import { actionType } from "./context/reducer";
 
 const App = () => {
-  const [{foodItem}, dispatch] = useStateValue();
+  const [{ foodItem }, dispatch] = useStateValue();
 
   // fetch data
   const fetchData = async () => {
@@ -18,8 +18,8 @@ const App = () => {
       // console.log(data)
       dispatch({
         type: actionType.SET_FOOD_ITEM,
-        foodItem : data
-      })
+        foodItem: data,
+      });
     });
   };
 
@@ -30,6 +30,7 @@ const App = () => {
   return (
     <AnimatePresence mode="wait">
       <div className="w-screen h-auto flex flex-col bg-primary">
+        {/* header */}
         <Header />
 
         {/* body */}

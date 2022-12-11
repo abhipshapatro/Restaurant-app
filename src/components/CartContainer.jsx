@@ -10,10 +10,10 @@ import CartItem from "./CartItem";
 const CartContainer = () => {
   const [{ cartShow, cartItems, user }, dispatch] = useStateValue();
 
-    const [total, setTotal] = useState(0);
-    const [flag, setFlag] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [flag, setFlag] = useState(1);
 
-// toggle the cart    
+  // toggle the cart
   const showCart = () => {
     dispatch({
       type: actionType.SET_CART_SHOW,
@@ -21,29 +21,26 @@ const CartContainer = () => {
     });
   };
 
-
-// calculating total value
+  // calculating total value
   useEffect(() => {
     // inital value of accumulator = 0
-    let totalPrice = cartItems.reduce( function (accumulator, item){
-        return accumulator + item.qty * item.price; //gets added to accumulator 
+    let totalPrice = cartItems.reduce(function (accumulator, item) {
+      return accumulator + item.qty * item.price; //gets added to accumulator
     }, 0);
 
     setTotal(totalPrice);
-    console.log(total)
-  }, [total, flag])
+    console.log(total);
+  }, [total, flag]);
 
-
-
-// clear the cart 
+  // clear the cart
   const clearCart = () => {
     dispatch({
-        type : actionType.SET_CART_ITEM,
-        cartItems: [],
+      type: actionType.SET_CART_ITEM,
+      cartItems: [],
     });
 
     localStorage.setItem("cartItems", JSON.stringify([]));
-  }
+  };
 
   return (
     <motion.div
@@ -82,7 +79,12 @@ const CartContainer = () => {
             {/* cart item */}
             {cartItems &&
               cartItems.map((item) => (
-                <CartItem key={item.id} item={item} flag={flag} setFlag={setFlag} />
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  flag={flag}
+                  setFlag={setFlag}
+                />
               ))}
           </div>
 
@@ -105,7 +107,9 @@ const CartContainer = () => {
             {/* total amount */}
             <div className="w-full flex items-center justify-between">
               <p className="text-xl text-gray-200 font-semibold">Total</p>
-              <p className="text-xl text-gray-200 font-semibold">${total + 2.5}</p>
+              <p className="text-xl text-gray-200 font-semibold">
+                ${total + 2.5}
+              </p>
             </div>
 
             {/* button */}

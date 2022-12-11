@@ -6,53 +6,49 @@ import { actionType } from "../context/reducer";
 let items = [];
 
 const CartItem = ({ item, flag, setFlag }) => {
-  
-    const [{cartItems}, dispatch] = useStateValue();
-    const [qty, setQty] = useState(item.qty);
+  const [{ cartItems }, dispatch] = useStateValue();
+  const [qty, setQty] = useState(item.qty);
 
   const cartDispatch = () => {
-    localStorage.setItem("cartItems", JSON.stringify(items))
+    localStorage.setItem("cartItems", JSON.stringify(items));
     dispatch({
-        type: actionType.SET_CART_ITEM,
-        cartItems:items
-    })
-  }
+      type: actionType.SET_CART_ITEM,
+      cartItems: items,
+    });
+  };
 
   const updateQty = (action, id) => {
-    if(action == "add"){
-        setQty(qty+1);
+    if (action == "add") {
+      setQty(qty + 1);
+      cartItems.map((item) => {
+        if (item.id === id) {
+          item.qty += 1;
+          setFlag(flag + 1);
+        }
+      });
+      cartDispatch();
+    } else {
+      // inital state value is 1 so you need to check if 1 then remove it
+      if (qty == 1) {
+        items = cartItems.filter((item) => item.id !== id);
+        setFlag(flag + 1);
+        cartDispatch();
+      } else {
+        setQty(qty - 1);
         cartItems.map((item) => {
-            if(item.id === id){
-                item.qty += 1;
-                setFlag(flag + 1);
-            }
-        });
-        cartDispatch()
-    }
-    else{
-        // inital state value is 1 so you need to check if 1 then remove it
-        if(qty == 1){
-            items = cartItems.filter((item) => item.id !== id);
+          if (item.id === id) {
+            item.qty -= 1;
             setFlag(flag + 1);
-            cartDispatch();
-        }
-        else{
-            setQty(qty-1);
-            cartItems.map(item => {
-                if(item.id === id){
-                    item.qty -= 1;
-                    setFlag(flag + 1);
-                }
-            });
-            cartDispatch()
-        }
+          }
+        });
+        cartDispatch();
+      }
     }
-  }
-
+  };
 
   useEffect(() => {
     items = cartItems;
-  }, [qty, items])
+  }, [qty, items]);
 
   return (
     <div className="w-full p-1 px-2 rounded-lg bg-cartItem flex items-center gap-2">

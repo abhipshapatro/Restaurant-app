@@ -6,7 +6,7 @@ import RowContainer from "./RowContainer";
 import { useStateValue } from "../context/StateProvider";
 
 const MenuContainer = () => {
-  const [filter, setFilter] = useState("chicken");
+  const [filterValue, setFilterValue] = useState("chicken");
   const [{ foodItem }, dispatch] = useStateValue();
 
   return (
@@ -30,14 +30,16 @@ const MenuContainer = () => {
                 whileTap={{ scale: 0.75 }}
                 key={category.id}
                 className={`group ${
-                  filter === category.urlParamName ? "bg-cartNumBg" : "bg-card"
+                  filterValue === category.urlParamName
+                    ? "bg-cartNumBg"
+                    : "bg-card"
                 } w-24 min-w-[94px] h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-cartNumBg`}
-                onClick={() => setFilter(category.urlParamName)}
+                onClick={() => setFilterValue(category.urlParamName)}
               >
                 {/* inner circle */}
                 <div
                   className={`w-10 h-10 rounded-full shadow-lg ${
-                    filter === category.urlParamName
+                    filterValue === category.urlParamName
                       ? "bg-white"
                       : "bg-cartNumBg"
                   } group-hover:bg-white flex items-center justify-center`}
@@ -45,7 +47,7 @@ const MenuContainer = () => {
                   {/* food icon */}
                   <IoFastFood
                     className={`${
-                      filter === category.urlParamName
+                      filterValue === category.urlParamName
                         ? "text-textColor"
                         : "text-white"
                     } group-hover:text-textColor text-lg`}
@@ -54,7 +56,7 @@ const MenuContainer = () => {
                 {/* name */}
                 <p
                   className={`text-sm ${
-                    filter === category.urlParamName
+                    filterValue === category.urlParamName
                       ? "text-white"
                       : "text-textColor"
                   } group-hover:text-white `}
@@ -68,7 +70,7 @@ const MenuContainer = () => {
         <div className="w-full">
           <RowContainer
             flag={true}
-            data={foodItem?.filter((n) => n.category === filter)}
+            data={foodItem?.filter((n) => n.category === filterValue)}
           />
         </div>
       </div>

@@ -25,7 +25,7 @@ export const heroData = [
     price: "8.25",
     imageSrc: C3,
   },
-{
+  {
     id: 4,
     name: "Fish Kebab",
     decp: "Mixed Fish Kebab",
