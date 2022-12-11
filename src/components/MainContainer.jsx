@@ -8,7 +8,7 @@ import MenuContainer from "./MenuContainer";
 import CartContainer from "./CartContainer";
 
 const MainContainer = () => {
-  const [{ foodItem }, dispatch] = useStateValue();
+  const [{ foodItem, cartShow }, dispatch] = useStateValue();
   const [scrollValue, setScrollValue] = useState(0);
 
   return (
@@ -55,7 +55,7 @@ const MainContainer = () => {
 
 
       {/* cart container */}
-      <CartContainer />
+       {cartShow &&  <CartContainer /> }
     </div>
   );
 };
