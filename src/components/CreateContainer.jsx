@@ -11,18 +11,22 @@ import { categories } from "../utils/data";
 import Loader from "./Loader";
 import { storage } from "../firebase.config";
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { saveItem } from "../utils/firebaseFunctions";
+import { getAllFoodItems, saveItem } from "../utils/firebaseFunctions";
+import { actionType } from "../context/reducer";
+import { useStateValue } from "../context/StateProvider";
 
 const CreateContainer = () => {
   const [title, setTitle] = useState("");
   const [calories, setCalories] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState(null);
-  const [fields, setFields] = useState(true);
+  const [fields, setFields] = useState(false);
   const [alertStatus, setAlertStatus] = useState("danger");
   const [imageAsset, setImageAsset] = useState(null);
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [{foodItem}, dispatch] = useStateValue();
+
 
 
   // upload the image
@@ -131,6 +135,8 @@ const CreateContainer = () => {
           setFields(false);
           setIsLoading(false);
         }, 4000);
+
+        fetchData()
     }
     
   };
@@ -142,9 +148,20 @@ const CreateContainer = () => {
      setTitle("");
      setCalories("");
      setPrice("");
-     setCategory("");
-
+     setCategory("Select Category");
   }
+
+
+  // fetch data
+  const fetchData = async () => {
+    await getAllFoodItems().then((data) => {
+      // console.log(data)
+      dispatch({
+        type: actionType.SET_FOOD_ITEM,
+        foodItem : data
+      })
+    });
+  };
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
